@@ -25,13 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CustomUserDetailsImpl customUserDetails;
+
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody User user) throws Exception {
@@ -51,7 +54,7 @@ public class AuthController {
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = JwtProvider.generateToken(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
 
         AuthResponse res = new AuthResponse();
         res.setMessage("User registered successfully");
@@ -69,13 +72,13 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = JwtProvider.generateToken(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
 
         AuthResponse res = new AuthResponse();
         res.setMessage("User Logged in successfully");
         res.setJwt(jwt);
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     private Authentication authenticate(String username, String password) {
@@ -90,6 +93,4 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
     }
-
-
 }
