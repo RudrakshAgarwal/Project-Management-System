@@ -15,12 +15,23 @@ public class User {
     private String fullName;
     private String email;
     private String password;
+    private int projectSize;
 
     @JsonIgnore
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
     private List<Issue> assignedIssues = new ArrayList<>();
 
-    private int projectSize;
+    public User() {
+    }
+
+    public User(Long id, String fullName, String email, String password, int projectSize, List<Issue> assignedIssues) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.projectSize = projectSize;
+        this.assignedIssues = assignedIssues;
+    }
 
     public Long getId() {
         return id;
@@ -54,19 +65,19 @@ public class User {
         this.password = password;
     }
 
-    public List<Issue> getAssignedIssues() {
-        return assignedIssues;
-    }
-
-    public void setAssignedIssues(List<Issue> assignedIssues) {
-        this.assignedIssues = assignedIssues;
-    }
-
     public int getProjectSize() {
         return projectSize;
     }
 
     public void setProjectSize(int projectSize) {
         this.projectSize = projectSize;
+    }
+
+    public List<Issue> getAssignedIssues() {
+        return assignedIssues;
+    }
+
+    public void setAssignedIssues(List<Issue> assignedIssues) {
+        this.assignedIssues = assignedIssues;
     }
 }
