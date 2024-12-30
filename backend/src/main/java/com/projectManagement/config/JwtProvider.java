@@ -23,7 +23,12 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String getEmailFromToken(String jwt) {
+    public String getEmailFromToken(String jwt) throws Exception {
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            jwt = jwt.substring(7);
+        } else
+            throw new Exception("Invalid Auth Type Header...");
+
         Claims claims = Jwts.parser().verifyWith(jwtProperties.getKey()).build().parseSignedClaims(jwt).getPayload();
         return String.valueOf(claims.get("email"));
     }
