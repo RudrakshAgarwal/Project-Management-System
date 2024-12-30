@@ -48,6 +48,10 @@ public class ProjectController {
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
         User user  = userService.findUserProfileByJwt(jwt);
+
+        if (user == null)
+            throw new Exception("User doesn't exist. Invalid token. Unable to find project with id: " + projectId);
+
         Project project = projectService.getProjectById(projectId);
 
         return new ResponseEntity<>(project, HttpStatus.OK);
@@ -59,9 +63,9 @@ public class ProjectController {
             @RequestBody Project project
     ) throws Exception {
         User user  = userService.findUserProfileByJwt(jwt);
-        Project creaytedProject = projectService.createProject(project, user);
+        Project createdProject = projectService.createProject(project, user);
 
-        return new ResponseEntity<>(creaytedProject, HttpStatus.OK);
+        return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{projectId}")
@@ -71,6 +75,10 @@ public class ProjectController {
             @RequestBody Project project
     ) throws Exception {
         User user  = userService.findUserProfileByJwt(jwt);
+
+        if (user == null)
+            throw new Exception("User doesn't exist. Invalid token. Unable to find project with id: " + projectId);
+
         Project updatedProject = projectService.updateProject(project, projectId);
 
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);

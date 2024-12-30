@@ -4,7 +4,6 @@ import com.projectManagement.model.PlanType;
 import com.projectManagement.model.User;
 import com.projectManagement.response.PaymentLinkResponse;
 import com.projectManagement.service.UserService;
-import com.razorpay.Payment;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;

@@ -31,7 +31,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         String jwt = request.getHeader(jwtProperties.getJwtHeader());
 
         if (jwt != null) {
-            jwt.substring(7);
+            jwt = jwt.substring(7);
 
             try {
                 Claims claims = Jwts.parser().verifyWith(jwtProperties.getKey()).build().parseSignedClaims(jwt).getPayload();

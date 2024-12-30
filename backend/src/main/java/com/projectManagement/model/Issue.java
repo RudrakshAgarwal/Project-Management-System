@@ -1,5 +1,6 @@
 package com.projectManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -24,6 +25,7 @@ public class Issue {
     private User assignee;
 
     @ManyToOne
+    @JsonBackReference
     private Project project;
 
     @JsonIgnore
